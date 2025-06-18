@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Easily generate secure random strings using Java's SecureRandom algorithm.  Powered by SpringBoot and Java 17.">
+    <title>Random String Generator | A Java Servlets API</title>
+    <link href="//cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/darkly/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <style>
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+        body {
+            margin-bottom: 60px; /* Margin bottom by footer height */
+        }
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60px; /* Set the fixed height of the footer here */
+            line-height: 60px; /* Vertically center the text there */
+            background-color: #f5f5f5;
+        }
+        .container {
+            width: auto;
+            max-width: 920px;
+            padding: 0 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4"><a href="/" style="color:white;">
+        <i class="fa fa-coffee"></i></a> Secure Random String Generator
+    </h2>
+
+    <form th:action="@{/generate}" method="post" class="mb-10">
+        <div class="mb-3">
+            <label for="length" class="form-label is-valid">Length (1-100): <a th:if="${generatedString}" href="/" class="btn btn-sm btn-outline-secondary">Reset</a></label>
+            <input type="number" id="length" name="length" class="form-control" min="1" max="100" required th:value="${length}"/>
+        </div>
+        <div class="mb-5">
+            <label class="form-label">Character Types:</label><br>
+            <div class="form-check form-check-inline">
+                <input type="checkbox" id="includeUppercase" name="includeUppercase" class="form-check-input" value="true" th:checked="${includeUppercase}">
+                <label for="includeUppercase" class="form-check-label">Uppercase Letters</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="checkbox" id="includeLowercase" name="includeLowercase" class="form-check-input" value="true" th:checked="${includeLowercase}">
+                <label for="includeLowercase" class="form-check-label">Lowercase Letters</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="checkbox" id="includeDigits" name="includeDigits" class="form-check-input" value="true" th:checked="${includeDigits}">
+                <label for="includeDigits" class="form-check-label">Digits</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="checkbox" id="includeSpecial" name="includeSpecial" class="form-check-input" value="true" th:checked="${includeSpecial}">
+                <label for="includeSpecial" class="form-check-label">Special Characters</label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-outline-warning btn-md"><i class="fa fa-gears"></i>  Generate</button>
+    </form>
+
+    <div th:if="${error}" class="alert alert-danger mt-20">
+        <p th:text="${error}"></p>
+    </div>
+
+    <div th:if="${generatedString}" class="mt-20">
+        <hr class="text-primary mt-10">
+        <h5>Generated String: <i class="fa fa-clipboard mx-1" title="Copy to Clipboard" onclick="copyToClipboard()"></i>
+            <span class="badge bg-success" id="copy-result"></span>
+        </h5>
+        <div class="alert alert-light user-select-all" th:text="${generatedString}"></div>
+    </div>
+</div>
+
+<!-- sticky footer -->
+<footer class="footer bg-light">
+    <div class="container">
+        <span class="text-primary-emphasis">Made with <i class="fa fa-heart"></i> in Orlando, FL. by jetbeans. <span class="float-end">&copy; 2023-2025.  All Rights Reserved.</span> </span>
+    </div>
+</footer>
+<script src="//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/copyToClipboard.js"></script>
+</body>
+</html>
